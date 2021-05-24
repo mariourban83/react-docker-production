@@ -42,3 +42,17 @@ Steps:
 3. In AWS ECR -  **View push commands**  'for created repo will displays commands that need to be run inside localhost AWS CLI to push image to the registry. Run these commands (check if Dockerfile name is correct in the command).
 
 
+### Create cluster ( logical grouping of tasks or services )
+
+Start by creating cluster   
+- select networking only.   
+- Create VPC or choose existing one.  
+- Create the cluster.   
+
+Create Task Definition and select FARGATE ( Serverless compute engine for containers - Application isolation by design ).    
+- Select cpu, RAM and container to be used. Also select port : 80.    
+
+Task Definition simply specify container info: how many containers, resources they use, how they are linked and host ports they will use.   
+
+
+
