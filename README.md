@@ -54,5 +54,29 @@ Create Task Definition and select FARGATE ( Serverless compute engine for contai
 
 Task Definition simply specify container info: how many containers, resources they use, how they are linked and host ports they will use.   
 
+### Set ELB - Elastic Load Balancer
+Elastic load balancer automatically distributes incoming traffic across multiple targets (such as EC2 instances, containers, addresses to one or more Availability zones ).   
+Using load balancer in the app increases app fault tolerance and its availability.
+
+- In EC section, find and create a load balancer 
+- Select HTTP/HTTPS option
+- Create new Security Group / Configure Routing
+- Select VPC - Availability zones
+- Register targets and create ELB now
+- Once created, we can create service that will run the task-definition created in the cluster
+
+### Create service to run the task
+- In Clusters/Services-tab select create new and select FARGATE as launch type
+- Select VPC , container and add to load balancer option
+- Review and create service.
+- Once done, status active should appear. The app is now served on the IP-Dns address provided in load balancer section.
+
+### Attach domain to load balancer
+Unlike EC2, Lightsail, etc.,static IP can not be attached with an Elastic Load balancer.   
+This can be done either with using CNAME record or using NS record. Hovewer, CNAME can be added only for subdomains, not for top level domains.   
+For NS record :
+- Go to AWS Route 53 and create hosted zone - Public Hosted Zone
+- Create record set - A - IPv4 -Alias -yes and select attached container as Alias Target - Create
+- Copy created records and add them to the domain registrar - nameservers. Wait for propagation.
 
 
