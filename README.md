@@ -107,3 +107,7 @@ For NS record :
 - Edit inbound rules and add https rule in Load Balancer / Security Groups / Edit inbound rules
 - Thats all, visit https:// version of the site and if everything went well, the site should now be live and served securely via https
 
+### Set up CI/CD using AWS CodeBuild & AWS CodePipeline with GitHub
+
+In the AWS console, create project with CodeBuild
+- 
