@@ -7,6 +7,7 @@ phases:
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
+      - docker login -u $dockerhub_username -p $dockerhub_password
       - docker build -t $REPOSITORY_URI:latest -f Dockerfile.prod .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
