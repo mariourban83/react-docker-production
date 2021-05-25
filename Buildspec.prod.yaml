@@ -1,7 +1,35 @@
+# version: 0.2
+# phases:
+#   install:
+#     runtime-versions:
+#       docker: latest
+#     commands:
+#       - docker login -u $dockerhub_username -p $dockerhub_password
+ 
+#   pre_build:
+#     commands:
+#       - $(aws ecr get-login-password --region $AWS_DEFAULT_REGION)
+#       - REPOSITORY_URI=259684427204.dkr.ecr.eu-west-1.amazonaws.com/react-docker-app
+#       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+#       - IMAGE_TAG=${COMMIT_HASH:=latest}
+#   build:
+#     commands:
+#       - docker build -t $REPOSITORY_URI:latest -f Dockerfile.prod .
+#       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+#   post_build:
+#     commands:
+#       - docker push $REPOSITORY_URI:latest
+#       - docker push $REPOSITORY_URI:$IMAGE_TAG
+#       - printf '[{"name":"react-docker-app-task","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+# artifacts:
+#   files: imagedefinitions.json
+
+
 version: 0.2
 phases:
   pre_build:
     commands:
+      - $(aws ecr get-login --no-include-email --region eu-west-1)
       - REPOSITORY_URI=259684427204.dkr.ecr.eu-west-1.amazonaws.com/react-docker-app
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
@@ -11,6 +39,7 @@ phases:
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
+      - docker login -u $dockerhub_username -p $dockerhub_password
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - printf '[{"name":"react-docker-app-task","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
