@@ -110,4 +110,40 @@ For NS record :
 ### Set up CI/CD using AWS CodeBuild & AWS CodePipeline with GitHub
 
 In the AWS console, create project with CodeBuild
-- 
+
+- Connect it with github and add required repository
+- Select 'Managed image', with new service role and select Buildspec file. Buildspec is basically file that tells the provider info about build.
+- Allow CodeBuild access AWS ECR repository
+- Create policy that allows codebuilder access ECR and attach it to it
+
+AWS CodePipelane
+
+- From the console, create Pipeline
+- Add github as a source
+- Select "AWS CodeBuild" as the Build provider
+- Select "Amazon ECS" as the Deploy provider
+- After creating the pipeline it will start to build & deploy automatically (the first time). Now, whenever you push to the master branch (or branch you provided earlier) pipeline will be triggered automatically
+- You can set up notification rules using AWS Chatbot with Slack or use SNS with any other service.
+
+Continous Integration
+
+CI comes into play when we want to merge branches/PRs etc, and that requires you to write test cases that are executed before merging.
+
+To implement CI, we will use Github Workflows
+
+- From the project root dir:
+
+```
+mkdir .github
+cd .github
+mkdir workflows
+touch react.yml
+```
+
+- Commit the changes and push to Github
+- Now, whenever I make changes to the code and create new PRs it will run test cases automatically. I can check my workflow by going to the "Actions" tab on Github.
+
+Project Sources:
+
+- [Continuous Delivery and Continuous Deployment](https://www.atlassian.com/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment)
+- [React - Docker -AWS - CI/CD app](https://dev.to/mubbashir10/containerize-react-app-with-docker-for-production-572b)
